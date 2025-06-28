@@ -1,59 +1,58 @@
-
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-st.set_page_config(page_title="Auditory Rehab Prototype", layout="centered")
+st.set_page_config(page_title="청능재활 데모", layout="centered")
 
-st.title("🎧 Auditory Brain Training: Dual Hemisphere Prototype")
-st.markdown("Train your brain with a daily mix of **language** and **music** tasks!")
+st.title("🎧 청능 뇌훈련: 좌우뇌 자극 프로그램")
+st.markdown("매일 언어와 음악을 활용해 좌우뇌를 자극해보세요!")
 
-# Session state for scores
+# 세션 상태 초기화
 if "language_score" not in st.session_state:
     st.session_state.language_score = 0
 if "music_score" not in st.session_state:
     st.session_state.music_score = 0
 
-# --- Language Task ---
-st.header("📝 Language Task (Left Brain)")
-st.markdown("**Repeat this sentence aloud:**")
-sentence = "The quick brown fox jumps over the lazy dog."
+# --- 언어 훈련 (좌뇌) ---
+st.header("📝 언어 훈련 (좌뇌)")
+st.markdown("**아래 문장을 소리 내어 읽고 따라 해보세요.**")
+sentence = "오늘은 날씨가 맑고 기분이 좋아요."
 st.info(sentence)
 
-if st.button("Simulate STT Evaluation"):
-    with st.spinner("Analyzing your speech..."):
+if st.button("음성 평가 시뮬레이션"):
+    with st.spinner("음성을 분석하는 중입니다..."):
         time.sleep(2)
     score = np.random.randint(60, 100)
     st.session_state.language_score = score
-    st.success(f"Your language accuracy score: {score}/100")
+    st.success(f"언어 인식 정확도 점수: {score}/100")
 
-# --- Music Task ---
-st.header("🎵 Music Task (Right Brain)")
-st.markdown("**Tap the rhythm by pressing the space bar in sync.**")
-st.text("(Simulated here)")
+# --- 음악 훈련 (우뇌) ---
+st.header("🎵 음악 훈련 (우뇌)")
+st.markdown("**화면에 나오는 리듬을 따라 손뼉 치듯이 Space 키를 눌러보세요.**")
+st.text("(이곳에서는 시뮬레이션으로 진행됩니다)")
 
-if st.button("Simulate Rhythm Analysis"):
-    with st.spinner("Evaluating your rhythm sense..."):
+if st.button("리듬 감각 분석 시뮬레이션"):
+    with st.spinner("리듬 분석 중입니다..."):
         time.sleep(2)
     score = np.random.randint(60, 100)
     st.session_state.music_score = score
-    st.success(f"Your rhythm accuracy score: {score}/100")
+    st.success(f"리듬 감각 점수: {score}/100")
 
-# --- Visualization ---
-st.header("📊 Brain Balance Score")
-labels = ['Language (Left)', 'Music (Right)']
+# --- 좌우뇌 자극 점수 시각화 ---
+st.header("📊 좌우뇌 자극 점수")
+labels = ['언어 (좌뇌)', '음악 (우뇌)']
 scores = [st.session_state.language_score, st.session_state.music_score]
 colors = ['skyblue', 'salmon']
 
 fig, ax = plt.subplots()
 ax.bar(labels, scores, color=colors)
 ax.set_ylim([0, 100])
-ax.set_ylabel("Score")
-ax.set_title("Daily Hemisphere Activation")
+ax.set_ylabel("점수")
+ax.set_title("오늘의 뇌 자극 현황")
 st.pyplot(fig)
 
-# --- End Message ---
+# --- 피드백 메시지 ---
 if st.session_state.language_score and st.session_state.music_score:
     avg = (st.session_state.language_score + st.session_state.music_score) / 2
-    st.success(f"\nGreat work! Today's brain training average: {avg:.1f}/100")
+    st.success(f"오늘의 훈련 평균 점수는 {avg:.1f}점입니다. 잘하셨어요!")
